@@ -7,7 +7,9 @@
 git clone https://github.com/brightsidedeveloper/how-to-tanstack <folder-name>
 ```
 
-2. Split your terminal (So you can have one run the web app dev server & the other runs the backend server
+2. Open that folder with VSCode.
+
+2. Open the terminal & then open another terminal so you have 2. (Focus the terminal & `ctrl+shift+5` to split it)
 
 3. In one terminal cd into backend
 ```bash
