@@ -8,19 +8,23 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/shadcn/ui/dropdown-menu'
 
-import { Copy, Github, LogOut, PillBottle } from 'lucide-react'
+import { Github, LogOut, PillBottle, Star } from 'lucide-react'
 import { Button } from './shadcn/ui/button'
 import { useNavigate } from '@tanstack/react-router'
-import { useMutation } from 'bsdweb'
+import { useMutation, useQueryClient } from 'bsdweb'
 import { post } from '@/utils/request'
 import wetToast from '@/utils/wetToast'
 
 export default function DropDown({ children }: { children: React.ReactNode }) {
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
 
   const { mutate: signOut } = useMutation({
     mutationFn: () => post('/rest/signin/signout', undefined, undefined),
-    onSuccess: () => navigate({ to: '/sign-in' }),
+    onSuccess: () => {
+      queryClient.clear()
+      navigate({ to: '/sign-in' })
+    },
     onError: (error) => wetToast(error.message),
   })
 
@@ -42,8 +46,8 @@ export default function DropDown({ children }: { children: React.ReactNode }) {
         </DropdownMenuItem>
         <DropdownMenuItem>
           <a href="https://github.com/brightsidedeveloper/how-to-tanstack" target="_blank" className="flex items-center">
-            <Copy className="mr-2 h-4 w-4" />
-            <span>Clone Repo</span>
+            <Star className="mr-2 h-4 w-4" />
+            <span>Star Repo</span>
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem disabled>

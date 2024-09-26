@@ -98,12 +98,9 @@ export async function get<U extends keyof GetEndpoints>(
     // Fetch the data
     const res = await fetch(url + query, { ...options, method: 'GET' })
     if (!res.ok) throw new Error(res.statusText)
-    const contentType = res.headers.get('content-type')
 
     // Handle the response based on the content type
-    if (contentType === 'application/json') rawData = await res.json()
-    else if (contentType?.startsWith('text/')) rawData = await res.text()
-    else rawData = await res.blob()
+    rawData = await res.json()
 
     // Validate the response
     const data = validator ? validator(rawData) : (rawData as ReturnType<GetEndpoints[U]>)
@@ -201,12 +198,9 @@ export async function post<U extends keyof PostEndpoints>(
       body: JSON.stringify(body),
     })
     if (!res.ok) throw new Error(res.statusText)
-    const contentType = res.headers.get('content-type')
 
     // Handle the response based on the content type
-    if (contentType === 'application/json') rawData = await res.json()
-    else if (contentType?.startsWith('text/')) rawData = await res.text()
-    else rawData = await res.blob()
+    rawData = await res.json()
 
     // Validate the response
     const data = validator ? validator(rawData) : (rawData as ReturnType<PostEndpoints[U]>)
@@ -304,12 +298,9 @@ export async function put<U extends keyof PutEndpoints>(
       body: JSON.stringify(body),
     })
     if (!res.ok) throw new Error(res.statusText)
-    const contentType = res.headers.get('content-type')
 
     // Handle the response based on the content type
-    if (contentType === 'application/json') rawData = await res.json()
-    else if (contentType?.startsWith('text/')) rawData = await res.text()
-    else rawData = await res.blob()
+    rawData = await res.json()
 
     // Validate the response
     const data = validator ? validator(rawData) : (rawData as ReturnType<PutEndpoints[U]>)
@@ -407,12 +398,9 @@ export async function patch<U extends keyof PatchEndpoints>(
       body: JSON.stringify(body),
     })
     if (!res.ok) throw new Error(res.statusText)
-    const contentType = res.headers.get('content-type')
 
     // Handle the response based on the content type
-    if (contentType === 'application/json') rawData = await res.json()
-    else if (contentType?.startsWith('text/')) rawData = await res.text()
-    else rawData = await res.blob()
+    rawData = await res.json()
 
     // Validate the response
     const data = validator ? validator(rawData) : (rawData as ReturnType<PatchEndpoints[U]>)
@@ -496,12 +484,9 @@ export async function del<U extends keyof DeleteEndpoints>(
     // Fetch the data
     const res = await fetch(url + query, { ...options, method: 'DELETE' })
     if (!res.ok) throw new Error(res.statusText)
-    const contentType = res.headers.get('content-type')
 
     // Handle the response based on the content type
-    if (contentType === 'application/json') rawData = await res.json()
-    else if (contentType?.startsWith('text/')) rawData = await res.text()
-    else rawData = await res.blob()
+    rawData = await res.json()
 
     // Validate the response
     const data = validator ? validator(rawData) : (rawData as ReturnType<DeleteEndpoints[U]>)

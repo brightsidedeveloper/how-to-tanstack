@@ -5,9 +5,7 @@ type SignInBody = {
   password: string
 }
 
-export const PostSignInSchema = z.object({
-  success: z.literal(true),
-})
+export const PostSignInSchema = z.object({})
 export type PostSignInResponse = z.infer<typeof PostSignInSchema>
 
 declare global {

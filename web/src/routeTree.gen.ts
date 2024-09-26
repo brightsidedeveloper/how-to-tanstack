@@ -15,12 +15,12 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as SignInRouteImport } from './routes/sign-in/route'
 import { Route as AppRouteImport } from './routes/_app/route'
+import { Route as AppChatImport } from './routes/_app/chat'
 
 // Create Virtual Routes
 
 const SignInIndexLazyImport = createFileRoute('/sign-in/')()
 const AppIndexLazyImport = createFileRoute('/_app/')()
-const AppChatLazyImport = createFileRoute('/_app/chat')()
 
 // Create/Update Routes
 
@@ -44,7 +44,7 @@ const AppIndexLazyRoute = AppIndexLazyImport.update({
   getParentRoute: () => AppRouteRoute,
 } as any).lazy(() => import('./routes/_app/index.lazy').then((d) => d.Route))
 
-const AppChatLazyRoute = AppChatLazyImport.update({
+const AppChatRoute = AppChatImport.update({
   path: '/chat',
   getParentRoute: () => AppRouteRoute,
 } as any).lazy(() => import('./routes/_app/chat.lazy').then((d) => d.Route))
@@ -71,7 +71,7 @@ declare module '@tanstack/react-router' {
       id: '/_app/chat'
       path: '/chat'
       fullPath: '/chat'
-      preLoaderRoute: typeof AppChatLazyImport
+      preLoaderRoute: typeof AppChatImport
       parentRoute: typeof AppRouteImport
     }
     '/_app/': {
@@ -94,10 +94,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  AppRouteRoute: AppRouteRoute.addChildren({
-    AppChatLazyRoute,
-    AppIndexLazyRoute,
-  }),
+  AppRouteRoute: AppRouteRoute.addChildren({ AppChatRoute, AppIndexLazyRoute }),
   SignInRouteRoute: SignInRouteRoute.addChildren({ SignInIndexLazyRoute }),
 })
 
@@ -127,7 +124,7 @@ export const routeTree = rootRoute.addChildren({
       ]
     },
     "/_app/chat": {
-      "filePath": "_app/chat.lazy.tsx",
+      "filePath": "_app/chat.ts",
       "parent": "/_app"
     },
     "/_app/": {

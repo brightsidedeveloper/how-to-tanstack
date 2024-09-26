@@ -1,15 +1,15 @@
 import ReactDOM from 'react-dom/client'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
-import { QueryClient, QueryClientProvider } from 'bsdweb'
 import './index.css'
 import './theme.ts'
 
 import { routeTree } from './routeTree.gen'
 import { StrictMode } from 'react'
+import { QueryClient, QueryClientProvider } from 'bsdweb'
 
 const queryClient = new QueryClient()
 
-const router = createRouter({ routeTree })
+const router = createRouter({ routeTree, context: { queryClient } })
 
 declare module '@tanstack/react-router' {
   interface Register {

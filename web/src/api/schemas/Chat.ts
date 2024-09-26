@@ -15,12 +15,14 @@ export type GetChatResponse = z.infer<typeof GetChatSchema>
 type PostChatBody = {
   prompt: string
 }
+export const PostChatSchema = z.object({})
+export type PostChatResponse = z.infer<typeof PostChatSchema>
 
 declare global {
   interface GetEndpoints {
     '/rest/chat': () => GetChatResponse
   }
   interface PostEndpoints {
-    '/rest/chat': (body: PostChatBody) => void
+    '/rest/chat': (params: undefined, body: PostChatBody) => PostChatResponse
   }
 }
