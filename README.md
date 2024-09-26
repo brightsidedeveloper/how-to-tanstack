@@ -42,3 +42,5 @@ npm run dev
 ```
 
 6. Mod the App!! You now have everything running. You can create a new branch and play with the code, break it, fix it, LEARN :)
+
+7. Contribute to the repo
