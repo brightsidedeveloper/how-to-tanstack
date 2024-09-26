@@ -5,6 +5,11 @@ import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      '/rest': 'http://localhost:3000',
+    },
+  },
   plugins: [react(), TanStackRouterVite()],
   resolve: {
     alias: {

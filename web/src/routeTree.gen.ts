@@ -13,40 +13,40 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SignInRouteImport } from './routes/sign-in/route'
+import { Route as AppRouteImport } from './routes/_app/route'
 
 // Create Virtual Routes
 
-const SignInRouteLazyImport = createFileRoute('/sign-in')()
-const AppRouteLazyImport = createFileRoute('/_app')()
 const SignInIndexLazyImport = createFileRoute('/sign-in/')()
 const AppIndexLazyImport = createFileRoute('/_app/')()
 const AppChatLazyImport = createFileRoute('/_app/chat')()
 
 // Create/Update Routes
 
-const SignInRouteLazyRoute = SignInRouteLazyImport.update({
+const SignInRouteRoute = SignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/sign-in/route.lazy').then((d) => d.Route))
 
-const AppRouteLazyRoute = AppRouteLazyImport.update({
+const AppRouteRoute = AppRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/_app/route.lazy').then((d) => d.Route))
 
 const SignInIndexLazyRoute = SignInIndexLazyImport.update({
   path: '/',
-  getParentRoute: () => SignInRouteLazyRoute,
+  getParentRoute: () => SignInRouteRoute,
 } as any).lazy(() => import('./routes/sign-in/index.lazy').then((d) => d.Route))
 
 const AppIndexLazyRoute = AppIndexLazyImport.update({
   path: '/',
-  getParentRoute: () => AppRouteLazyRoute,
+  getParentRoute: () => AppRouteRoute,
 } as any).lazy(() => import('./routes/_app/index.lazy').then((d) => d.Route))
 
 const AppChatLazyRoute = AppChatLazyImport.update({
   path: '/chat',
-  getParentRoute: () => AppRouteLazyRoute,
+  getParentRoute: () => AppRouteRoute,
 } as any).lazy(() => import('./routes/_app/chat.lazy').then((d) => d.Route))
 
 // Populate the FileRoutesByPath interface
@@ -57,14 +57,14 @@ declare module '@tanstack/react-router' {
       id: '/_app'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AppRouteLazyImport
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRoute
     }
     '/sign-in': {
       id: '/sign-in'
       path: '/sign-in'
       fullPath: '/sign-in'
-      preLoaderRoute: typeof SignInRouteLazyImport
+      preLoaderRoute: typeof SignInRouteImport
       parentRoute: typeof rootRoute
     }
     '/_app/chat': {
@@ -72,21 +72,21 @@ declare module '@tanstack/react-router' {
       path: '/chat'
       fullPath: '/chat'
       preLoaderRoute: typeof AppChatLazyImport
-      parentRoute: typeof AppRouteLazyImport
+      parentRoute: typeof AppRouteImport
     }
     '/_app/': {
       id: '/_app/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AppIndexLazyImport
-      parentRoute: typeof AppRouteLazyImport
+      parentRoute: typeof AppRouteImport
     }
     '/sign-in/': {
       id: '/sign-in/'
       path: '/'
       fullPath: '/sign-in/'
       preLoaderRoute: typeof SignInIndexLazyImport
-      parentRoute: typeof SignInRouteLazyImport
+      parentRoute: typeof SignInRouteImport
     }
   }
 }
@@ -94,13 +94,11 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  AppRouteLazyRoute: AppRouteLazyRoute.addChildren({
+  AppRouteRoute: AppRouteRoute.addChildren({
     AppChatLazyRoute,
     AppIndexLazyRoute,
   }),
-  SignInRouteLazyRoute: SignInRouteLazyRoute.addChildren({
-    SignInIndexLazyRoute,
-  }),
+  SignInRouteRoute: SignInRouteRoute.addChildren({ SignInIndexLazyRoute }),
 })
 
 /* prettier-ignore-end */
@@ -116,14 +114,14 @@ export const routeTree = rootRoute.addChildren({
       ]
     },
     "/_app": {
-      "filePath": "_app/route.lazy.tsx",
+      "filePath": "_app/route.ts",
       "children": [
         "/_app/chat",
         "/_app/"
       ]
     },
     "/sign-in": {
-      "filePath": "sign-in/route.lazy.tsx",
+      "filePath": "sign-in/route.ts",
       "children": [
         "/sign-in/"
       ]

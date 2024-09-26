@@ -1,3 +1,4 @@
+import DropDown from './ui/DropDown'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/shadcn/ui/avatar'
 import { ThemeToggle } from './ui/ThemeToggle'
 
@@ -12,10 +13,12 @@ export default function Header() {
         <div className="w-fit flex items-center gap-3">
           <ThemeToggle />
 
-          <Avatar className="size-7">
-            <AvatarImage src="https://github.com/brightsidedeveloper.png" alt="name" />
-            <AvatarFallback>NAME</AvatarFallback>
-          </Avatar>
+          <DropDown>
+            <Avatar className="size-7">
+              <AvatarImage src="https://github.com/brightsidedeveloper.png" alt="name" />
+              <AvatarFallback>NAME</AvatarFallback>
+            </Avatar>
+          </DropDown>
         </div>
       </div>
     </header>

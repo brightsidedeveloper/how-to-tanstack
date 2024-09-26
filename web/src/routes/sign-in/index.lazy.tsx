@@ -1,8 +1,11 @@
 import { Button } from '@/components/ui/shadcn/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/shadcn/ui/card'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/shadcn/ui/card'
 import { Input } from '@/components/ui/shadcn/ui/input'
 import { Label } from '@/components/ui/shadcn/ui/label'
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { post } from '@/utils/request'
+import wetToast from '@/utils/wetToast'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
+import { useMutation } from 'bsdweb'
 import { useState } from 'react'
 
 export const Route = createLazyFileRoute('/sign-in/')({
@@ -10,11 +13,19 @@ export const Route = createLazyFileRoute('/sign-in/')({
 })
 
 function SignIn() {
+  const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  const { mutate } = useMutation({
+    mutationFn: () => post('/rest/signin', undefined, { username, password }),
+    onSuccess: () => navigate({ to: '/' }),
+    onError: (error) => wetToast(error.message),
+  })
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    mutate()
   }
 
   return (
@@ -22,6 +33,7 @@ function SignIn() {
       <Card className="min-w-96">
         <CardHeader>
           <CardTitle>Sign In</CardTitle>
+          <CardDescription>Here is a hint, the password is password 😅</CardDescription>
         </CardHeader>
         <CardContent className="[&_input]:mt-2 [&_input:first-of-type]:mb-4">
           <Label htmlFor="username">Username</Label>
